@@ -1,0 +1,87 @@
+#include <iostream>
+
+#define MAXSIZE 100
+
+typedef int Position;
+typedef struct LNode *List;
+struct LNode {
+    int Data[MAXSIZE];
+    Position Last;
+};
+
+//-----------------------------------------------------------------------------------------------
+/* 初始化 */
+List MakeEmpty()
+{
+    List L;
+
+    L = (List)malloc(sizeof(struct LNode));
+    L->Last = 0;
+
+    return L;
+}
+//向后添加一个元素
+bool addNum(List L,int num){
+    if(L->Last>=MAXSIZE-1){
+        return false;
+    }
+    L->Data[L->Last]=num;
+    L->Last++;
+    return true;
+}
+//显示所有元素
+void showAll(List L){
+    for (int i = 0; i < L->Last; ++i) {
+        printf("%d\t",L->Data[i]);
+    }
+}
+//数组转换顺序表
+List arrToNumList(int arr[]){
+    List L=MakeEmpty();
+
+}
+//删除指定元素
+bool delNum(List  L,int index){
+    if(index>L->Last||index<0){
+        return false;
+    }
+    for(int i=index+1;i<L->Last;i++){
+        L->Data[i-1]=L->Data[i];
+    }
+    L->Last--;
+
+}
+//查找实现
+int findNum(List L,int num){
+    for (int i = 0; i < L->Last; ++i) {
+        if(L->Data[i]==num){
+            return i;
+        }
+    }
+    return -1;
+}
+//插入实现
+bool insertNum(List L,int index,int num){
+    if(L->Last==MAXSIZE||index<0||index>L->Last){
+        return false;
+    }
+    for (int i = L->Last; i >=index; --i) {
+        L->Data[i]=L->Data[i-1];
+    }
+    L->Data[index]=num;
+    L->Last++;
+    return true;
+
+}
+//-----------------------------------------------------------------------------------------------
+
+int main() {
+    List numList=MakeEmpty();
+    for (int i = 0; i <10; ++i) {
+        addNum(numList,i);
+    }
+    insertNum(numList,3,100);
+    showAll(numList);
+
+    return 0;
+}
